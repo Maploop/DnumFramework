@@ -19,9 +19,9 @@ import java.util.List;
 import java.util.UUID;
 
 public abstract class GUI implements InventoryHolder {
-    protected PlayerMenuUtility playerMenuUtility;
-    protected Inventory inventory;
-    protected ItemStack FILLER_GLASS = makeItem(Material.STAINED_GLASS_PANE, " ", 1, 15);
+    public PlayerMenuUtility playerMenuUtility;
+    public Inventory inventory;
+    public ItemStack FILLER_GLASS = makeItem(Material.STAINED_GLASS_PANE, " ", 1, 15);
 
     public GUI(PlayerMenuUtility playerMenuUtility) {
         this.playerMenuUtility = playerMenuUtility;
