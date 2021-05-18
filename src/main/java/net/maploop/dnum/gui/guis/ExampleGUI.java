@@ -2,6 +2,7 @@ package net.maploop.dnum.gui.guis;
 
 import net.maploop.dnum.gui.GUI;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 
 public class ExampleGUI extends GUI {
     public ExampleGUI(net.maploop.dnum.gui.PlayerMenuUtility playerMenuUtility) {
@@ -19,12 +20,17 @@ public class ExampleGUI extends GUI {
     }
 
     @Override
-    public void hadleMenu(InventoryClickEvent event) {
+    public void onClick(InventoryClickEvent event) {
+
+    }
+
+    @Override
+    public void onClose(InventoryCloseEvent event) {
 
     }
 
     @Override
     public void setItems() {
-        Player
+
     }
 }

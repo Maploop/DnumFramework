@@ -5,6 +5,7 @@ import com.mojang.authlib.properties.Property;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemFlag;
@@ -31,7 +32,9 @@ public abstract class GUI implements InventoryHolder {
 
     public abstract int getSize();
 
-    public abstract void hadleMenu(InventoryClickEvent event);
+    public abstract void onClick(InventoryClickEvent event);
+
+    public abstract void onClose(InventoryCloseEvent event);
 
     public abstract void setItems();
 
