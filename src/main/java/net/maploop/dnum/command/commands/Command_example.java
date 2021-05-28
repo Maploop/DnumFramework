@@ -5,6 +5,9 @@ import net.maploop.dnum.command.CommandParameters;
 import net.maploop.dnum.command.CommandSource;
 import net.maploop.dnum.gui.PlayerMenuUtility;
 import net.maploop.dnum.gui.guis.ExampleGUI;
+import net.maploop.dnum.util.Util;
+import net.maploop.dnum.util.hologram.Hologram;
+import net.maploop.dnum.util.signgui.SignGUI;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
@@ -26,7 +29,20 @@ public class Command_example extends AbstractCommand {
     public void run(CommandSource sender, String[] args) {
         send("§aHello! This is an §eexample§a.");
 
+        // This is how you open the SignGUI.
+        if(true) {
+            SignGUI.openSignEditor(sender.getPlayer(), new String[] {"", "^^^^^", "Type text", "in here!"}, event -> {
+                sender.getPlayer().sendMessage(event.getSignText()[0]);
+                // new Hologram("first", event.getSignText()[0].split(","), sender.getPlayer().getLocation(), 0.5, true);
+            });
+            return;
+        }
+
         // This is how you open menus to a player:
         new ExampleGUI(new PlayerMenuUtility(sender.getPlayer())).open();
+
+        /**
+         * This line is for testing purposes.
+         */
     }
 }

@@ -24,10 +24,9 @@ import java.util.UUID;
 public class SignGUI {
     private static Hashtable<UUID, BlockPosition> playerBlockPositions;//table for keeping of track of where everyone's 'fake' signs are
 
-    public static void openSignEditor(Player player, String[] text)
-    {
+    public static void openSignEditor(Player player, String[] text, SignGUIUpdateHandler handler) {
         playerBlockPositions = new Hashtable<UUID, BlockPosition>();
-        registerSignUpdateListener();
+        registerSignUpdateListener(handler);
 
         int x = player.getLocation().getBlockX();
         int y = 255;
@@ -59,8 +58,7 @@ public class SignGUI {
         playerBlockPositions.put(player.getUniqueId(), bp);
     }
 
-    private static void registerSignUpdateListener()
-    {
+    private static void registerSignUpdateListener(SignGUIUpdateHandler handler) {
         ProtocolManager manager = ProtocolLibrary.getProtocolManager();
 
         if(playerBlockPositions == null)
@@ -101,6 +99,7 @@ public class SignGUI {
                         //trigger the sign update event
                         SignGUIUpdateEvent updateEvent = new SignGUIUpdateEvent(player, text);
                         Bukkit.getServer().getPluginManager().callEvent(updateEvent);
+                        handler.onUpdate(updateEvent);
                     }
                 }
             }
@@ -111,5 +110,9 @@ public class SignGUI {
 
             }
         });
+    }
+
+    public interface SignGUIUpdateHandler {
+        void onUpdate(SignGUIUpdateEvent event);
     }
 }

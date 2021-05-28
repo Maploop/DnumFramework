@@ -1,15 +1,21 @@
 package net.maploop.dnum;
 
 import net.maploop.dnum.command.CommandLoader;
-import net.maploop.dnum.command.commands.Command_example;
 import net.maploop.dnum.listener.InventoryClick;
+import net.maploop.dnum.listener.PlayerJoin;
 import net.maploop.dnum.listener.SignGUIUpdate;
 import net.maploop.dnum.util.DLog;
+import net.maploop.dnum.util.hologram.Hologram;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
+import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Field;
 
 /**
@@ -53,11 +59,13 @@ public final class Dnum extends JavaPlugin {
     public static Dnum getInstance() { return dnum; }
 
     private void loadCommands() {
-        cl.register(new Command_example());
+        cl.register(new net.maploop.dnum.command.commands.Command_example());
     }
     private void loadListeners() {
         PluginManager m = this.getServer().getPluginManager();
         m.registerEvents(new InventoryClick(), this);
         m.registerEvents(new SignGUIUpdate(), this);
+        m.registerEvents(new PlayerJoin(), this);
     }
+
 }
