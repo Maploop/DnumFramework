@@ -6,6 +6,7 @@ import net.maploop.dnum.listener.PlayerJoin;
 import net.maploop.dnum.listener.SignGUIUpdate;
 import net.maploop.dnum.npc.NPC;
 import net.maploop.dnum.npc.NPCRegistery;
+import net.maploop.dnum.npc.npcs.ExampleNPC;
 import net.maploop.dnum.util.DLog;
 import net.maploop.dnum.util.hologram.Hologram;
 import org.bukkit.Bukkit;
@@ -35,11 +36,13 @@ public final class Dnum extends JavaPlugin {
     private static Dnum dnum;
     public CommandMap commandMap;
     public CommandLoader cl;
+    NPCRegistery nr;
 
     @Override
     public void onEnable() {
         dnum = this;
         cl = new CommandLoader();
+        nr = new NPCRegistery();
         try{
             Field f = Bukkit.getServer().getClass().getDeclaredField("commandMap");
             f.setAccessible(true);
@@ -50,6 +53,7 @@ public final class Dnum extends JavaPlugin {
 
         DLog.info("Loading commands...");
         loadCommands();
+        loadNpcs();
         DLog.info("Loading listeners...");
         loadListeners();
 
@@ -69,6 +73,10 @@ public final class Dnum extends JavaPlugin {
                 }
             }
         }.runTaskTimer(this, 0, 1);
+    }
+
+    public void loadNpcs() {
+        nr.register(new ExampleNPC());
     }
 
     public BukkitTask startShitScheduler(Player player) {
