@@ -4,6 +4,8 @@ import net.maploop.dnum.command.CommandLoader;
 import net.maploop.dnum.listener.InventoryClick;
 import net.maploop.dnum.listener.PlayerJoin;
 import net.maploop.dnum.listener.SignGUIUpdate;
+import net.maploop.dnum.npc.NPC;
+import net.maploop.dnum.npc.NPCRegistery;
 import net.maploop.dnum.util.DLog;
 import net.maploop.dnum.util.hologram.Hologram;
 import org.bukkit.Bukkit;
@@ -11,8 +13,11 @@ import org.bukkit.command.CommandMap;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.io.File;
 import java.io.IOException;
@@ -49,6 +54,44 @@ public final class Dnum extends JavaPlugin {
         loadListeners();
 
         DLog.info("Plugin was enabled!");
+    }
+
+    public BukkitTask startRotating(Player player) {
+        return new BukkitRunnable() {
+            @Override
+            public void run() {
+                for (NPC npc : NPC.getNpcs()) {
+                    if(!npc.getParameters().looking()) continue;
+
+                    if(player.getWorld() != Bukkit.getWorld("world")) return;
+                    if (npc.getLocation().distance(player.getLocation()) < 20)
+                        npc.rotateHeadtoPlayer(player);
+                }
+            }
+        }.runTaskTimer(this, 0, 1);
+    }
+
+    public BukkitTask startShitScheduler(Player player) {
+        return new BukkitRunnable() {
+            @Override
+            public void run() {
+                if(!player.isOnline()) {
+                    this.cancel();
+                    return;
+                }
+
+                for(NPC npc : NPC.getNpcs()) {
+                    if(npc.getLocation().distance(player.getLocation()) > 100) {
+                        NPCRegistery.idfk.put(player.getName() + "_" + npc.getParameters().idname(), false);
+                    } else {
+                        if(NPCRegistery.idfk.get(player.getName() + "_" + npc.getParameters().idname())) return;
+                        npc.despawn(player);
+                        Bukkit.getScheduler().runTaskLater(Dnum.getInstance(), () -> npc.spawn(player), 5);
+                        NPCRegistery.idfk.put(player.getName() + "_" + npc.getParameters().idname(), true);
+                    }
+                }
+            }
+        }.runTaskTimer(this, 0, 20);
     }
 
     @Override
