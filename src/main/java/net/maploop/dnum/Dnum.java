@@ -8,7 +8,7 @@ import net.maploop.dnum.npc.NPC;
 import net.maploop.dnum.npc.NPCRegistery;
 import net.maploop.dnum.npc.npcs.ExampleNPC;
 import net.maploop.dnum.util.DLog;
-import net.maploop.dnum.util.scoreboard.PlayerScoreboard;
+import net.maploop.dnum.util.scoreboard.GlobalScoreboard;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
 import org.bukkit.entity.Player;
@@ -57,7 +57,7 @@ public final class Dnum extends JavaPlugin {
         loadNpcs();
         startNPCScheduler();
 
-        new PlayerScoreboard("&a&lGAMING", DisplaySlot.SIDEBAR, "&7Gaming Network", "%%space%%", "&dLet's game!", "%%space%%", "&agaming.net").sendScoreboard();
+        new GlobalScoreboard("&a&lGAMING", DisplaySlot.SIDEBAR, "&7Gaming Network", "%%space%%", "&dLet's game!", "%%space%%", "&agaming.net").sendScoreboard(true);
 		DLog.info("scoreboard is going!!!");
 
 		DLog.info("Plugin was enabled!");

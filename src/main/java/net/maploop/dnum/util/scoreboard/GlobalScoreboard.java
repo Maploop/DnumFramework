@@ -4,26 +4,25 @@ import net.maploop.dnum.Dnum;
 import net.maploop.dnum.util.DLog;
 import net.maploop.dnum.util.Util;
 import org.bukkit.Bukkit;
+import org.bukkit.craftbukkit.libs.joptsimple.internal.Strings;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 
-public class PlayerScoreboard {
+public class GlobalScoreboard {
 	private static Scoreboard board;
 	private static Objective objective;
 
 	private final String title;
-	private final Player target;
 	private final DisplaySlot displaySlot;
 	private final String[] lines;
 
 	public static int refreshRate = 20, startDelay = 60;
 
-	public PlayerScoreboard(String title, Player target, DisplaySlot displaySlot, String... lines) {
+	public GlobalScoreboard(String title, DisplaySlot displaySlot, String... lines) {
 		this.title = title;
-		this.target = target;
 		this.displaySlot = displaySlot;
 		this.lines = lines;
 	}
@@ -43,7 +42,9 @@ public class PlayerScoreboard {
 						objective.getScore(Util.colorize(lines[i].replace("%%space%%", buildSpace()))).setScore(-i);
 					}
 
-					target.setScoreboard(board);
+					for (Player player : Bukkit.getOnlinePlayers()) {
+						player.setScoreboard(board);
+					}
 				}
 			}.runTaskTimer(Dnum.getInstance(), startDelay, refreshRate);
 		} else {
@@ -51,7 +52,9 @@ public class PlayerScoreboard {
 				objective.getScore(Util.colorize(lines[i].replace("%%space%%", buildSpace()))).setScore(-i);
 			}
 
-			target.setScoreboard(board);
+			for (Player player : Bukkit.getOnlinePlayers()) {
+				player.setScoreboard(board);
+			}
 		}
 	}
 
