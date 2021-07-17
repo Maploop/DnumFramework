@@ -1,5 +1,6 @@
 package net.maploop.dnum.listener;
 
+import com.comphenix.protocol.injector.packet.PacketInjector;
 import net.maploop.dnum.Dnum;
 import net.maploop.dnum.npc.NPC;
 import net.maploop.dnum.npc.NPCRegistery;
@@ -24,7 +25,6 @@ public class PlayerJoin implements Listener {
         new PacketReader(player).inject();
 
         NPCRegistery.rotationTaskMap.put(player.getUniqueId(), Dnum.getInstance().startRotating(player));
-        NPCRegistery.despawnTaskMap.put(player.getUniqueId(), Dnum.getInstance().startShitScheduler(player));
 
         for(NPC npc : NPC.getNpcs()) {
             npc.spawn(player);
@@ -43,7 +43,8 @@ public class PlayerJoin implements Listener {
             npc.despawn(event.getPlayer());
         }
 
-        NPCRegistery.despawnTaskMap.get(event.getPlayer().getUniqueId()).cancel();
+        new PacketReader(event.getPlayer()).uninject();
+
         NPCRegistery.rotationTaskMap.get(event.getPlayer().getUniqueId()).cancel();
 
         NPCRegistery.rotationTaskMap.remove(event.getPlayer().getUniqueId());

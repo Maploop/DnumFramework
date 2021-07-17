@@ -52,7 +52,7 @@ public class PacketReader {
                                 return;
                             }
                             new NPCRegistery().getNpc(npc.getParameters().idname()).onClick(new NPC.PlayerClickNPCEvent(player, NPC.PlayerClickNPCEvent.ClickType.LEFT, id, npc));
-                        }, 0);
+                        }, 1);
 
                     } else if (getValue(packet, "action").toString().equalsIgnoreCase("INTERACT")) {
                         Bukkit.getScheduler().scheduleSyncDelayedTask(Dnum.getInstance(), () -> {
@@ -61,7 +61,7 @@ public class PacketReader {
                                 return;
                             }
                             new NPCRegistery().getNpc(npc.getParameters().idname()).onClick(new NPC.PlayerClickNPCEvent(player, NPC.PlayerClickNPCEvent.ClickType.RIGHT, id, npc));
-                        }, 0);
+                        }, 1);
                     }
                 }
             }

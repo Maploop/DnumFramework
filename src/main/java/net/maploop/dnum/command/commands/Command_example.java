@@ -3,15 +3,8 @@ package net.maploop.dnum.command.commands;
 import net.maploop.dnum.command.AbstractCommand;
 import net.maploop.dnum.command.CommandParameters;
 import net.maploop.dnum.command.CommandSource;
-import net.maploop.dnum.gui.PlayerMenuUtility;
 import net.maploop.dnum.gui.guis.ExampleGUI;
-import net.maploop.dnum.util.Util;
-import net.maploop.dnum.util.hologram.Hologram;
 import net.maploop.dnum.util.signgui.SignGUI;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-
-import java.util.List;
 
 @CommandParameters(
         usage = "/<command> <args>",
@@ -31,18 +24,14 @@ public class Command_example extends AbstractCommand {
 
         // This is how you open the SignGUI.
         if(true) {
-            SignGUI.openSignEditor(sender.getPlayer(), new String[] {"", "^^^^^", "Type text", "in here!"}, event -> {
-                sender.getPlayer().sendMessage(event.getSignText()[0]);
-                // new Hologram("first", event.getSignText()[0].split(","), sender.getPlayer().getLocation(), 0.5, true);
-            });
+            new SignGUI(sender.getPlayer(), new String[] {"^^^^^", "Enter a", "query!"}, (input -> {
+                send("&a" + input);
+                // Send the player's input to themselves,
+            }));
             return;
         }
 
         // This is how you open menus to a player:
-        new ExampleGUI(new PlayerMenuUtility(sender.getPlayer())).open();
-
-        /**
-         * This line is for testing purposes.
-         */
+        new ExampleGUI().open(sender.getPlayer());
     }
 }
