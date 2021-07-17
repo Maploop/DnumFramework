@@ -114,8 +114,12 @@ public class GlobalTablist {
 						if(c1 >= footer.size())
 							c1 = 0;
 
-						a.set(packet, header.get(c));
-						b.set(packet, footer.get(c1));
+						if (!header.isEmpty()) {
+							a.set(packet, header.get(c));
+						}
+						if (!footer.isEmpty()) {
+							b.set(packet, footer.get(c1));
+						}
 
 						((CraftPlayer)player).getHandle().playerConnection.sendPacket(packet);
 						
