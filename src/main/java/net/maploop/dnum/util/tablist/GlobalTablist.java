@@ -19,7 +19,7 @@ public class GlobalTablist {
 
 	public static int startDelay = 60, refreshRate = 20;
 
-	public void add(TabPosition pos, String s) {
+	public GlobalTablist add(TabPosition pos, String s) {
 		switch (pos) {
 			case HEADER:
 				header.add(new ChatComponentText(s.replaceAll("&", "§")));
@@ -28,6 +28,8 @@ public class GlobalTablist {
 				footer.add(new ChatComponentText(s.replaceAll("&", "§")));
 				break;
 		}
+
+		return this;
 	}
 
 	public void sendTablist(boolean refreshing) {
