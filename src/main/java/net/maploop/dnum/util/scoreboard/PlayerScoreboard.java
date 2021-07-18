@@ -39,16 +39,16 @@ public class PlayerScoreboard {
 			new BukkitRunnable() {
 				@Override
 				public void run() {
-					for (int i = 0; i < lines.length; i++) {
-						objective.getScore(Util.colorize(lines[i].replace("%%space%%", buildSpace()))).setScore(i);
+					for (int i = lines.length; i > 0; i--) {
+						objective.getScore(Util.colorize(lines[i- 1].replace("%%space%%", buildSpace()))).setScore(i);
 					}
 
 					target.setScoreboard(board);
 				}
 			}.runTaskTimer(Dnum.getInstance(), startDelay, refreshRate);
 		} else {
-			for (int i = 0; i < lines.length; i++) {
-				objective.getScore(Util.colorize(lines[i].replace("%%space%%", buildSpace()))).setScore(i);
+			for (int i = lines.length; i > 0; i--) {
+				objective.getScore(Util.colorize(lines[i- 1].replace("%%space%%", buildSpace()))).setScore(i);
 			}
 
 			target.setScoreboard(board);

@@ -3,10 +3,13 @@ package net.maploop.dnum.npc;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 public class NPCRegistery {
+    public static final Map<String, List<String>> VIEWING_NPCS = new HashMap<>();
+
     public static final Map<String, NPC> npcRegistery = new HashMap<>();
     public static final Map<String, Boolean> idfk = new HashMap<>();
     public static final Map<UUID, BukkitTask> despawnTaskMap = new HashMap<>();

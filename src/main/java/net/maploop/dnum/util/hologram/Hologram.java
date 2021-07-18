@@ -46,6 +46,19 @@ public final class Hologram {
         return stand;
     }
 
+    public void update(EntityArmorStand stand) {
+        stand.setCustomName(text);
+
+        Runnable runnable = () -> {
+            putStand(stand, player);
+        };
+
+        if (this.toAll) {
+            despawn(player, stand.getId());
+            // i dont fucking know dude
+        }
+    }
+
     public void unSend(int id) {
         PacketPlayOutEntityDestroy packetDestroy = new PacketPlayOutEntityDestroy(id);
         ((CraftPlayer)player).getHandle().playerConnection.sendPacket(packetDestroy);
@@ -69,5 +82,10 @@ public final class Hologram {
     public void sendPackets(Player player, EntityArmorStand stand) {
         PacketPlayOutSpawnEntityLiving packet = new PacketPlayOutSpawnEntityLiving(stand);
         ((CraftPlayer)player).getHandle().playerConnection.sendPacket(packet);
+    }
+
+    private void despawn(Player player, int id) {
+        PacketPlayOutEntityDestroy despawnPacket = new PacketPlayOutEntityDestroy(id);
+        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(despawnPacket);
     }
 }

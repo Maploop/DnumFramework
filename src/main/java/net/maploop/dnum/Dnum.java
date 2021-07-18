@@ -7,6 +7,8 @@ import net.maploop.dnum.listener.SignGUIUpdate;
 import net.maploop.dnum.npc.NPC;
 import net.maploop.dnum.npc.NPCRegistery;
 import net.maploop.dnum.npc.npcs.ExampleNPC;
+import net.maploop.dnum.npc.npcs.TestNPC1;
+import net.maploop.dnum.npc.npcs.TestNPC2;
 import net.maploop.dnum.util.DLog;
 import net.maploop.dnum.util.scoreboard.GlobalScoreboard;
 import net.maploop.dnum.util.scoreboard.PlayerScoreboard;

@@ -1,20 +1,24 @@
 package net.maploop.dnum.npc;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ListMultimap;
+import com.google.common.collect.Lists;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import lombok.Getter;
 import net.maploop.dnum.Dnum;
+import net.maploop.dnum.npc.chunk.ChunkCoord;
 import net.maploop.dnum.util.DLog;
+import net.maploop.dnum.util.Messaging;
 import net.maploop.dnum.util.Util;
 import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R3.util.CraftChatMessage;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Cancellable;
-import org.bukkit.event.Event;
-import org.bukkit.event.HandlerList;
-import org.bukkit.event.Listener;
+import org.bukkit.event.*;
+import org.bukkit.event.world.ChunkLoadEvent;
+import org.bukkit.event.world.ChunkUnloadEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
@@ -22,6 +26,8 @@ import java.util.*;
 public abstract class NPC extends Reflections {
     @Getter
     private final NPCParameters parameters;
+
+    private final ListMultimap<ChunkCoord, NPC> toRespawn = ArrayListMultimap.create(64, 4);
 
     private final int entityID;
     private final Location location;
@@ -163,7 +169,7 @@ public abstract class NPC extends Reflections {
         return entityID;
     }
 
-    public static final class DespawnPreventer {
+    public static final class DespawnPreventer implements Listener {
 
         // Method for checking if player is seeing NPCs or not.
         // If yes, we don't do anything, if not, we de-spawn and then re-spawn the NPCs
@@ -174,22 +180,30 @@ public abstract class NPC extends Reflections {
                 Bukkit.getOnlinePlayers().forEach(player -> {
                     // Getting all NPCs
                     for (NPC npc : NPC.getNpcs()) {
+                        List<String> viewiing = NPCRegistery.VIEWING_NPCS.get(player.getName());
+
                         if (npc.getLocation().distance(player.getLocation()) >= 60) {
                             npc.despawn(player);
 
                             // Player HashMap for checking if the player is looking at a npc.
-                            NPCRegistery.idfk.put(player.getName() + "_" + npc.getParameters().idname(), false);
+                            viewiing.remove(npc.getParameters().idname());
+                            NPCRegistery.VIEWING_NPCS.put(player.getName(), viewiing);
+
+                            // NPCRegistery.idfk.put(player.getName() + "_" + npc.getParameters().idname(), false);
                         } else {
                             // If player is already looking at the NPC we return.
-                            if (NPCRegistery.idfk.get(player.getName() + "_" + npc.getParameters().idname())) return;
+                            if (viewiing.contains(npc.getParameters().idname())) return;
+                            // if (NPCRegistery.idfk.get(player.getName() + "_" + npc.getParameters().idname())) return;
 
                             // Logging the fact that one NPC was spawned for a player.
-                            DLog.info("[" + player.getName() + "] <= [" + npc.getParameters().idname() + "] (NPC LOG)");
+                            Messaging.debug("[", player.getName(), "] <= [", npc.getParameters().id(), "] (NPC LOG)");
                             npc.despawn(player);
                             Bukkit.getScheduler().runTaskLater(Dnum.getInstance(), () -> npc.spawn(player), 5);
 
                             // Putting the player as true in the HashMap, this indicates that they can see a specific NPC.
-                            NPCRegistery.idfk.put(player.getName() + "_" + npc.getParameters().idname(), true);
+                            viewiing.add(npc.getParameters().idname());
+                            NPCRegistery.VIEWING_NPCS.put(player.getName(), viewiing);
+                            // NPCRegistery.idfk.put(player.getName() + "_" + npc.getParameters().idname(), true);
                         }
                     }
                 });

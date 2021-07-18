@@ -19,6 +19,9 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scoreboard.DisplaySlot;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PlayerJoin implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
@@ -30,14 +33,20 @@ public class PlayerJoin implements Listener {
 
         new PlayerScoreboard("&a&lGAMING", player, DisplaySlot.SIDEBAR, "%%space%%", "we be gamin'", "%%space%%", "gaming.net").sendScoreboard(true);
 
+        List<String> viewing = new ArrayList<>();
+
         for(NPC npc : NPC.getNpcs()) {
             npc.spawn(player);
             if(npc.getLocation().distance(player.getLocation()) > 100) {
-                NPCRegistery.idfk.put(player.getName() + "_" + npc.getParameters().idname(), false);
+
+                // NPCRegistery.idfk.put(player.getName() + "_" + npc.getParameters().idname(), false);
             } else {
-                NPCRegistery.idfk.put(player.getName() + "_" + npc.getParameters().idname(), true);
+                viewing.add(npc.getParameters().idname());
+                // NPCRegistery.idfk.put(player.getName() + "_" + npc.getParameters().idname(), true);
             }
         }
+
+        NPCRegistery.VIEWING_NPCS.put(player.getName(), viewing);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
