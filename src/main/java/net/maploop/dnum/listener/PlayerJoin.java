@@ -6,6 +6,7 @@ import net.maploop.dnum.npc.NPC;
 import net.maploop.dnum.npc.NPCRegistery;
 import net.maploop.dnum.npc.PacketReader;
 import net.maploop.dnum.util.hologram.Hologram;
+import net.maploop.dnum.util.scoreboard.PlayerScoreboard;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -16,6 +17,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.scoreboard.DisplaySlot;
 
 public class PlayerJoin implements Listener {
     @EventHandler
@@ -25,6 +27,8 @@ public class PlayerJoin implements Listener {
         new PacketReader(player).inject();
 
         NPCRegistery.rotationTaskMap.put(player.getUniqueId(), Dnum.getInstance().startRotating(player));
+
+        new PlayerScoreboard("&a&lGAMING", player, DisplaySlot.SIDEBAR, "%%space%%", "we be gamin'", "%%space%%", "gaming.net").sendScoreboard(true);
 
         for(NPC npc : NPC.getNpcs()) {
             npc.spawn(player);
@@ -48,6 +52,5 @@ public class PlayerJoin implements Listener {
         NPCRegistery.rotationTaskMap.get(event.getPlayer().getUniqueId()).cancel();
 
         NPCRegistery.rotationTaskMap.remove(event.getPlayer().getUniqueId());
-        NPCRegistery.despawnTaskMap.remove(event.getPlayer().getUniqueId());
     }
 }

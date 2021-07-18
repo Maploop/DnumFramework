@@ -9,6 +9,7 @@ import net.maploop.dnum.npc.NPCRegistery;
 import net.maploop.dnum.npc.npcs.ExampleNPC;
 import net.maploop.dnum.util.DLog;
 import net.maploop.dnum.util.scoreboard.GlobalScoreboard;
+import net.maploop.dnum.util.scoreboard.PlayerScoreboard;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
 import org.bukkit.entity.Player;
@@ -55,9 +56,8 @@ public final class Dnum extends JavaPlugin {
 
         DLog.info("Registering NPCs...");
         loadNpcs();
-        startNPCScheduler();
+		new NPC.DespawnPreventer().start();
 
-        new GlobalScoreboard("&a&lGAMING", DisplaySlot.SIDEBAR, "&7Gaming Network", "%%space%%", "&dLet's game!", "%%space%%", "&agaming.net").sendScoreboard(true);
 		DLog.info("scoreboard is going!!!");
 
 		DLog.info("Plugin was enabled!");
@@ -80,29 +80,6 @@ public final class Dnum extends JavaPlugin {
 
 	public void loadNpcs() {
 		nr.register(new ExampleNPC());
-	}
-
-	public BukkitTask startNPCScheduler() {
-		return new BukkitRunnable() {
-			@Override
-			public void run() {
-			    Bukkit.getOnlinePlayers().forEach(player -> {
-                    for (NPC npc : NPC.getNpcs()) {
-                        if (player.getWorld().getName() != npc.getLocation().getWorld().getName()) continue;
-
-                        if (npc.getLocation().distance(player.getLocation()) > 100) {
-                        	npc.despawn(player);
-                            NPCRegistery.idfk.put(player.getName() + "_" + npc.getParameters().idname(), false);
-                        } else {
-                            if (NPCRegistery.idfk.get(player.getName() + "_" + npc.getParameters().idname())) return;
-                            npc.despawn(player);
-                            Bukkit.getScheduler().runTaskLater(Dnum.getInstance(), () -> npc.spawn(player), 5);
-                            NPCRegistery.idfk.put(player.getName() + "_" + npc.getParameters().idname(), true);
-                        }
-                    }
-                });
-			}
-		}.runTaskTimer(this, 0, 20);
 	}
 
 	@Override
