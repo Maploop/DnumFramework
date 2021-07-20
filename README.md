@@ -1,4 +1,3 @@
-# DnumFramework
 The Dnum Framework is a simple framework made by Maploop which contains a lot of libraries for spigot 1.8.8 plugins.
 This framework contians a lot of nice things that you can use without having to code them! Some of them were taken from
 other libraries, there is already credit for those people in the classes!
@@ -30,7 +29,6 @@ But here's some incase you need to:
 ```java
 // NOTE: Command class must be named like "Command_<name>" and the name after the Command_ prefix must be your command name.
 // You can change this in the AbstractCommand class.
-
 // In the usage, <command> will be replaced by your command's name.
 @CommandParameters(description = "My incredible command!", permission = "dnum.command.mycommand", usage = "/<command> <args>", aliases = {"alias1", "alias2"}, inGameOnly = true)
 public class Command_commandName extends AbstractCommand {
