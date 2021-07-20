@@ -2,10 +2,10 @@ package net.maploop.dnum.util.tablist;
 
 import lombok.SneakyThrows;
 import net.maploop.dnum.Dnum;
-import net.minecraft.server.v1_8_R3.ChatComponentText;
-import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerListHeaderFooter;
+import net.minecraft.server.v1_16_R3.ChatComponentText;
+import net.minecraft.server.v1_16_R3.PacketPlayOutPlayerListHeaderFooter;
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
