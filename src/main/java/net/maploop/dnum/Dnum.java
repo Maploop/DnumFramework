@@ -46,7 +46,7 @@ public final class Dnum extends JavaPlugin {
 
         DLog.info("Registering NPCs...");
         loadNpcs();
-		new NPC.NPCDespawnPreventer().start();
+		// new NPC.NPCDespawnPreventer().start();
 
 		DLog.info("scoreboard is going!!!");
 

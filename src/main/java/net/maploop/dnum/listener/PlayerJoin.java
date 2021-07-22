@@ -2,6 +2,7 @@ package net.maploop.dnum.listener;
 
 import com.comphenix.protocol.injector.packet.PacketInjector;
 import net.maploop.dnum.Dnum;
+import net.maploop.dnum.util.hologram.DHologram;
 import net.maploop.dnum.util.scoreboard.PlayerScoreboard;
 import net.maploop.dnum.v_1_16_R3_npc.NPC;
 import net.maploop.dnum.v_1_16_R3_npc.PacketReader;
@@ -28,9 +29,11 @@ public class PlayerJoin implements Listener {
         new PacketReader(player).inject();
 
         new PlayerScoreboard("&a&lGAMING", player, DisplaySlot.SIDEBAR, "%%space%%", "we be gamin'", "%%space%%", "gaming.net").sendScoreboard(true);
+        new DHologram("&cthis should be only shown to " + player.getName(), new Location(Bukkit.getWorld("world"), -49, 67, -132)).send(player);
 
         List<String> viewing = new ArrayList<>();
 
+        /*
         for (NPC npc : NPC.NPC_LIST) {
             npc.spawn(player);
 
@@ -40,6 +43,7 @@ public class PlayerJoin implements Listener {
         }
 
         NPC.NPC_VIEW.put(player.getName(), viewing);
+         */
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
