@@ -4,7 +4,6 @@ import net.maploop.dnum.command.AbstractCommand;
 import net.maploop.dnum.command.CommandParameters;
 import net.maploop.dnum.command.CommandSource;
 import net.maploop.dnum.gui.guis.ExampleGUI;
-import net.maploop.dnum.util.signgui.SignGUI;
 
 @CommandParameters(
         usage = "/<command> <args>",
@@ -23,13 +22,6 @@ public class Command_example extends AbstractCommand {
         send("§aHello! This is an §eexample§a.");
 
         // This is how you open the SignGUI.
-        if(true) {
-            new SignGUI(sender.getPlayer(), new String[] {"^^^^^", "Enter a", "query!"}, (input -> {
-                send("&a" + input);
-                // Send the player's input to themselves,
-            }));
-            return;
-        }
 
         // This is how you open menus to a player:
         new ExampleGUI().open(sender.getPlayer());

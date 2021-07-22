@@ -2,11 +2,9 @@ package net.maploop.dnum.listener;
 
 import com.comphenix.protocol.injector.packet.PacketInjector;
 import net.maploop.dnum.Dnum;
-import net.maploop.dnum.npc.NPC;
-import net.maploop.dnum.npc.NPCRegistery;
-import net.maploop.dnum.npc.PacketReader;
-import net.maploop.dnum.util.hologram.Hologram;
 import net.maploop.dnum.util.scoreboard.PlayerScoreboard;
+import net.maploop.dnum.v_1_16_R3_npc.NPC;
+import net.maploop.dnum.v_1_16_R3_npc.PacketReader;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -29,37 +27,23 @@ public class PlayerJoin implements Listener {
 
         new PacketReader(player).inject();
 
-        NPCRegistery.rotationTaskMap.put(player.getUniqueId(), Dnum.getInstance().startRotating(player));
-
         new PlayerScoreboard("&a&lGAMING", player, DisplaySlot.SIDEBAR, "%%space%%", "we be gamin'", "%%space%%", "gaming.net").sendScoreboard(true);
 
         List<String> viewing = new ArrayList<>();
 
-        for(NPC npc : NPC.getNpcs()) {
+        for (NPC npc : NPC.NPC_LIST) {
             npc.spawn(player);
-            if(npc.getLocation().distance(player.getLocation()) > 100) {
 
-                // NPCRegistery.idfk.put(player.getName() + "_" + npc.getParameters().idname(), false);
-            } else {
-                viewing.add(npc.getParameters().idname());
-                // NPCRegistery.idfk.put(player.getName() + "_" + npc.getParameters().idname(), true);
+            if (!(npc.getLocation().distance(player.getLocation()) > 60)) {
+                viewing.add(npc.getIdname());
             }
         }
 
-        NPCRegistery.VIEWING_NPCS.put(player.getName(), viewing);
+        NPC.NPC_VIEW.put(player.getName(), viewing);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onQuit(PlayerQuitEvent event) {
-        for (NPC npc : NPC.getNpcs()) {
-            NPCRegistery.idfk.remove(event.getPlayer().getName() + "_" + npc.getParameters().idname());
-            npc.despawn(event.getPlayer());
-        }
 
-        new PacketReader(event.getPlayer()).uninject();
-
-        NPCRegistery.rotationTaskMap.get(event.getPlayer().getUniqueId()).cancel();
-
-        NPCRegistery.rotationTaskMap.remove(event.getPlayer().getUniqueId());
     }
 }

@@ -1,8 +1,8 @@
-package net.maploop.dnum.npc;
+package net.maploop.dnum.v_1_16_R3_npc;
 
-import net.minecraft.server.v1_8_R3.Packet;
+import net.minecraft.server.v1_16_R3.Packet;
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import java.io.File;

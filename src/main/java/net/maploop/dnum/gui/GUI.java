@@ -23,7 +23,7 @@ import java.util.UUID;
 public abstract class GUI implements InventoryHolder {
     protected Player player;
     public Inventory inventory;
-    public ItemStack FILLER_GLASS = makeItem(Material.STAINED_GLASS_PANE, " ", 1, 15);
+    public ItemStack FILLER_GLASS = makeItem(Material.BLACK_STAINED_GLASS, " ", 1, 15);
 
     public abstract String getTitle();
 
@@ -93,7 +93,7 @@ public abstract class GUI implements InventoryHolder {
     }
 
     public ItemStack makeSkullItem(String displayname, String owner, int amount, String lore) {
-        ItemStack item = new ItemStack(Material.SKULL_ITEM, amount, (short) 3);
+        ItemStack item = new ItemStack(Material.PLAYER_HEAD, amount, (short) 3);
         SkullMeta meta = (SkullMeta) item.getItemMeta();
         meta.setOwner(owner);
         String[] lore1 = lore.split("\n");
@@ -105,7 +105,7 @@ public abstract class GUI implements InventoryHolder {
     }
 
     public static ItemStack makeCustomSkullItem(String url, String displayname, int amount, String... lore) {
-        ItemStack item = new ItemStack(Material.SKULL_ITEM, amount, (short) 3);
+        ItemStack item = new ItemStack(Material.PLAYER_HEAD, amount, (short) 3);
         if (url.isEmpty()) return item;
 
         SkullMeta itemMeta = (SkullMeta) item.getItemMeta();
@@ -127,7 +127,7 @@ public abstract class GUI implements InventoryHolder {
     }
 
     public static ItemStack makeTexturedSkullItem(String texture, String displayname, int amount, String... lore) {
-        ItemStack item = new ItemStack(Material.SKULL_ITEM, amount, (short) 3);
+        ItemStack item = new ItemStack(Material.PLAYER_HEAD, amount, (short) 3);
         if (texture == null) return item;
 
         SkullMeta itemMeta = (SkullMeta) item.getItemMeta();
